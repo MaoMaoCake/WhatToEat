@@ -1,7 +1,14 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import {onMount} from "svelte";
-  let logged_in = true;
+  import {logged_in} from "$lib/stores";
+
+  let logged_in_nav;
+
+  logged_in.subscribe(value => {
+    logged_in_nav = value;
+  })
+
   let app_name = "WhatDoIEat?";
 
   let menus = [{name:'Home', link:'/', type:'link'},
@@ -47,7 +54,7 @@
             </li>
           {:else if menu.type === "user"}
             <li tabindex="0">
-              {#if logged_in}
+              {#if logged_in_nav}
                 <div class="avatar">
                   <div class="max-w-xs max-h-7 rounded-full" >
                     <img src="img/default_avatar.webp" alt="login"/>
@@ -86,7 +93,7 @@
             </ul>
           </li>
         {:else if menu.type === "user"}
-              {#if logged_in}
+              {#if logged_in_nav}
                 <div class="dropdown dropdown-end">
                   <div tabindex="0" class="btn btn-ghost">
                   <div class="avatar">

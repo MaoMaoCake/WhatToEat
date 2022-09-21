@@ -1,5 +1,8 @@
+import { goto } from '$app/navigation';
+import {logged_in} from "$lib/stores";
 
 /** @type {import('./$types').PageLoad} */
 export function load(): void{
-    console.log("logout");
+    logged_in.update(() =>  false);
+    goto('/', {replaceState: true}).then(r => console.log(r))
 }
