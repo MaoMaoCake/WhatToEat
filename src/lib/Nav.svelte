@@ -2,11 +2,7 @@
   import { page } from '$app/stores';
   import {logged_in} from "$lib/stores";
 
-  let logged_in_nav;
 
-  logged_in.subscribe(value => {
-    logged_in_nav = value;
-  })
 
   let app_name = "WhatDoIEat?";
 
@@ -50,7 +46,7 @@
             </li>
           {:else if menu.type === "user"}
             <li tabindex="0">
-              {#if logged_in_nav}
+              {#if $logged_in}
                 <div class="avatar">
                   <div class="max-w-xs max-h-7 rounded-full" >
                     <img src="img/default_avatar.webp" alt="login"/>
@@ -89,7 +85,7 @@
             </ul>
           </li>
         {:else if menu.type === "user"}
-              {#if logged_in_nav}
+              {#if $logged_in}
                 <div class="dropdown dropdown-end">
                   <div tabindex="0" class="btn btn-ghost">
                   <div class="avatar">
