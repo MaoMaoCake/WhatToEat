@@ -4,5 +4,5 @@ import {logged_in} from "$lib/stores";
 /** @type {import('./$types').PageLoad} */
 export function load(): void{
     logged_in.update(() =>  false);
-    goto('/', {replaceState: true}).then(r => console.log(r))
+    goto('/', {replaceState: true})
 }

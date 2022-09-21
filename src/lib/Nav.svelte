@@ -1,6 +1,5 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import {onMount} from "svelte";
   import {logged_in} from "$lib/stores";
 
   let logged_in_nav;
@@ -26,9 +25,6 @@
                                                         }
               }
               ];
-  onMount(() => {
-    console.log(logged_in);
-    })
 </script>
 
 
