@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import {onMount} from "svelte";
-  let logged_in = false;
+  let logged_in = true;
   let app_name = "WhatDoIEat?";
 
   let menus = [{name:'Home', link:'/', type:'link'},
@@ -50,7 +50,7 @@
               {#if logged_in}
                 <div class="avatar">
                   <div class="max-w-xs max-h-7 rounded-full" >
-                    <img src="default_avatar.webp" alt="login"/>
+                    <img src="img/default_avatar.webp" alt="login"/>
                   </div>
                 </div>
                 <ul class="p-2 bg-base-100">
@@ -91,7 +91,7 @@
                   <div tabindex="0" class="btn btn-ghost">
                   <div class="avatar">
                     <div class="max-w-xs max-h-7 rounded-full" >
-                      <img src="default_avatar.webp" alt="login"/>
+                      <img src="img/default_avatar.webp" alt="login"/>
                     </div>
                   </div>
                   </div>
