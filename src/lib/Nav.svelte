@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import {onMount} from "svelte";
-  let logged_in = true;
+  let logged_in = false;
   let app_name = "WhatDoIEat?";
 
   let menus = [{name:'Home', link:'/', type:'link'},
@@ -49,7 +49,7 @@
             <li tabindex="0">
               {#if logged_in}
                 <div class="avatar">
-                  <div class="max-w-xs max-h-10 rounded-full" >
+                  <div class="max-w-xs max-h-7 rounded-full" >
                     <img src="default_avatar.webp" alt="login"/>
                   </div>
                 </div>
@@ -86,22 +86,24 @@
             </ul>
           </li>
         {:else if menu.type === "user"}
-          <li tabindex="0">
               {#if logged_in}
-                <div class="avatar">
-                  <div class="max-w-xs max-h-10 rounded-full" >
-                    <img src="default_avatar.webp" alt="login"/>
+                <div class="dropdown dropdown-end">
+                  <div tabindex="0" class="btn btn-ghost">
+                  <div class="avatar">
+                    <div class="max-w-xs max-h-7 rounded-full" >
+                      <img src="default_avatar.webp" alt="login"/>
+                    </div>
                   </div>
+                  </div>
+                  <ul class="dropdown-content menu shadow p-2 bg-base-100">
+                    {#each menu.user_dropdown.logged_in as data}
+                      <li><a href='/{data.link}'>{data.name}</a></li>
+                    {/each}
+                  </ul>
                 </div>
-                <ul class="p-2 bg-base-100">
-                  {#each menu.user_dropdown.logged_in as data}
-                    <li><a href='/{data.link}'>{data.name}</a></li>
-                  {/each}
-                </ul>
               {:else}
-                <a href="/login" class="text-primary">login</a>
+                  <a href="/login" class="btn btn-ghost text-primary">login</a>
               {/if}
-          </li>
         {:else}
           <li><a href="{menu.link}" class:text-secondary={$page.url.pathname === menu.link}>{menu.name}</a></li>
         {/if}
