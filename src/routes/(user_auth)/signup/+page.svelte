@@ -16,7 +16,7 @@
     // check for errors in form
     afterUpdate(() => {
         //password part
-        if (password !== "" && password !== confirm){
+        if (password !== "" && password !== confirm && confirm !== ""){
             matched = false
         } else if (password === confirm){
             matched = true;
