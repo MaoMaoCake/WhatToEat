@@ -1,15 +1,31 @@
 <script lang="ts">
-    import {logged_in} from "$lib/stores";
+    import {logged_in, jwt} from "$lib/stores";
     import {goto} from "$app/navigation";
 
     let email = "", password = "";
-    function login(){
-        if (email == "admin" && password === "password"){
-            logged_in.update(() =>  true);
-            goto("/",{replaceState: true});
-        } else {
-            alert("Wrong Username or Password")
-        }
+    async function login(){
+        let options = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: `{"NS":"wteauth","DB":"wte","SC":"general_users","email":"${email}","pass":"${password}","username":"${email}"}`
+        };
+        // if auth is a success make it into a json too
+        await fetch("http://localhost:8000/signin", options).then((response) => {
+            if (response.ok) {
+                return {code: 200, details:"Authentication Success","access_code":response.text()}
+            } else if (response.status === 403) {
+                return response.json()
+            }
+        }).then(res_data => {
+            // if success update jwt to svelte store
+            if (res_data.code === 200) {
+                logged_in.update(() => true);
+                jwt.update(() => res_data.access_code)
+                goto("/", {replaceState: true});
+            } else if (res_data.code === 403) {
+                alert("Wrong Username or Password")
+            }
+        })
 
     }
 </script>
@@ -18,10 +34,10 @@
         <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
             <div class="card-body">
                 <div class="form-control">
-                    <label class="label" for="email">
-                        <span class="label-text">Email</span>
+                    <label class="label" for="email_uname">
+                        <span class="label-text">Email/Username</span>
                     </label>
-                    <input id="email" type="text" placeholder="Email" class="input input-bordered" bind:value={email}/>
+                    <input id="email_uname" type="text" placeholder="Email/Username" class="input input-bordered" bind:value={email}/>
                 </div>
                 <div class="form-control">
                     <label class="label" for="password">
@@ -35,6 +51,7 @@
                 <div class="form-control mt-6">
                     <button class="btn btn-primary" on:click|preventDefault={login}>Login</button>
                 </div>
+                <a href="/signup" class="text-primary text-xs">Need an account?</a>
             </div>
         </div>
     </div>
