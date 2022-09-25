@@ -7,7 +7,7 @@
         let options = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: `{"NS":"wteauth","DB":"wte","SC":"general_users","email":"${email}","pass":"${password}","username":"${email}"}`
+            body: `{"NS":"wte","DB":"wte","SC":"general_users","email":"${email}","pass":"${password}","username":"${email}"}`
         };
         // if auth is a success make it into a json too
         await fetch("http://localhost:8000/signin", options).then((response) => {
@@ -19,6 +19,7 @@
         }).then(res_data => {
             // if success update jwt to svelte store
             if (res_data.code === 200) {
+
                 logged_in.update(() => true);
                 jwt.update(() => res_data.access_code)
                 goto("/", {replaceState: true});
